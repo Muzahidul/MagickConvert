@@ -57,9 +57,8 @@ namespace MagickConvertApp
             _SourceImage.Write(Path.Combine(_DestinationPath, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(_SourcePath), cboType.Text.ToLower())));
 
             Bitmap bitmap = _SourceImage.ToBitmap();
-            imgDest.SizeMode = PictureBoxSizeMode.Zoom;
-            imgDest.Image = bitmap;
-            MessageBox.Show(string.Format("Image saved successfully in {0}", txtDestination.Text));
+
+            MessageBox.Show(string.Format("Image saved successfully in {0}", _DestinationPath));
         }
 
         private void SetImageDimensions(MagickImage image)
@@ -97,36 +96,14 @@ namespace MagickConvertApp
             }
         }
 
-        private void FrmConvert_Load(object sender, EventArgs e)
+        private void txtSourceFile_TextChanged(object sender, EventArgs e)
         {
-            //using (Bitmap image = new Bitmap(400, 300))
-            //using (Graphics drawing = Graphics.FromImage(image))
-            //{
-            //drawing.Clear(Color.Transparent);
-            //Brush textBrush = new SolidBrush(Color.Black);
-            //drawing.DrawString("Preview", new Font("Tahoma", 20, FontStyle.Regular), textBrush, 0, 0);
-            //drawing.Save();
-            //imgDest.Image = image;
-            //}
+            _SourcePath = txtSourceFile.Text;
+        }
 
-            string text = "Preview";
-            Bitmap bitmap = new Bitmap(1, 1);
-            Font font = new Font("Arial", 16, FontStyle.Regular, GraphicsUnit.Pixel);
-            Graphics graphics = Graphics.FromImage(bitmap);
-            int width = 250; //(int)graphics.MeasureString(text, font).Width;
-            int height = 30; //(int)graphics.MeasureString(text, font).Height;
-            bitmap = new Bitmap(bitmap, new Size(width, height));
-            graphics = Graphics.FromImage(bitmap);
-            graphics.Clear(Color.White);
-            graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-            graphics.DrawString(text, font, new SolidBrush(Color.FromArgb(255, 0, 0)), 90, 0);
-
-            imgDest.Image = bitmap;
-            imgDest.SizeMode = PictureBoxSizeMode.CenterImage;
-
-            graphics.Flush();
-            graphics.Dispose();
+        private void txtDestination_TextChanged(object sender, EventArgs e)
+        {
+            _DestinationPath = txtDestination.Text;
         }
     }
 }
