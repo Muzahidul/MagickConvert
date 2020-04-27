@@ -1,0 +1,15 @@
+Merge Images and create Video with 2.5 sec duration per image:
+
+ffmpeg -framerate 1/2.5 -i img%d.jpg -r 25 -pix_fmt yuv420p images.mp4
+
+Note:
+"img%d.jpg" means "img1.jpg, img2.jpg..." and so on.
+
+
+Concat actual video and image video: 
+
+ffmpeg -i video.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate1.ts
+ffmpeg -i images.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts intermediate2.ts
+ffmpeg -i "concat:intermediate1.ts|intermediate2.ts" -c copy -bsf:a aac_adtstoasc merged_output.mp4
+del intermediate1.ts
+del intermediate2.ts
