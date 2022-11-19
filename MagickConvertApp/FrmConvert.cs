@@ -56,9 +56,21 @@ namespace MagickConvertApp
 
             _SourceImage.Write(Path.Combine(_DestinationPath, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(_SourcePath), cboType.Text.ToLower())));
 
-            Bitmap bitmap = _SourceImage.ToBitmap();
+            Bitmap bitmap = ToBitmap(_SourceImage, MagickFormat.Bmp3);
 
             MessageBox.Show(string.Format("Image saved successfully in {0}", _DestinationPath));
+        }
+
+        private Bitmap ToBitmap(IMagickImage mimg, MagickFormat fmt = MagickFormat.Png24)
+        {
+            Bitmap bmp = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                mimg.Write(ms, fmt);
+                ms.Position = 0;
+                bmp = (Bitmap)Bitmap.FromStream(ms);
+            }
+            return bmp;
         }
 
         private void SetImageDimensions(MagickImage image)
